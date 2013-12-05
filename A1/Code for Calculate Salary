@@ -1,0 +1,248 @@
+
+
+import javax.swing.JApplet;
+
+/**
+ *
+ * @author v90207
+ */
+import java.awt.*;         // Using AWT containers and components
+import java.awt.event.*;   // Using AWT events and listener interfaces
+import java.text.DecimalFormat;
+import javax.swing.JTextField;
+ 
+// An AWT GUI program inherits the top-level container Frame
+public class NetSalaryCalculator extends Frame implements ActionListener {
+   private Label lblName;     
+   private Label lblState;
+   private Label lblwHours;
+   private Label lblPayRate;
+   private Label lblFedTax;
+   private Label lblStateTax;
+   private Label lblNetSalary;
+   private Label status;
+   private JTextField name;  
+   private JTextField state;
+   private JTextField hours;  
+   private JTextField payRate;
+   private JTextField fedTax;  
+   private JTextField stateTax;
+   private JTextField netSalary;
+   private Button calcButton;
+   private Button clearText;
+   
+   DecimalFormat df = new DecimalFormat("#.00");
+   
+   double fTax = 0.2; // to find the federak tax in amount from gross salary
+   double sTax = 0;  // to find the state tax in amount from gross salary
+     // you are allowed to add more variables here if necessary
+   
+   // Constructor to setup UI components
+   public NetSalaryCalculator () {
+      setLayout(new FlowLayout());
+         // "this" Frame sets layout to FlowLayout, which arranges
+         //  Components from left-to-right, then top-to-bottom.
+      //Notification for invalid input
+      status = new Label("                                                                  ");
+      status.setForeground(Color.RED);
+      add(status);
+      
+      
+      lblName = new Label("Employee Name"); // allocate Label instance
+      lblName.setForeground(Color.YELLOW);
+      add(lblName);                   // "this" Frame adds Label
+ 
+      name = new JTextField(20); // allocate textfield
+      name.setEditable(true);    
+      name.setBackground(Color.DARK_GRAY);
+      name.setForeground(Color.white);
+      add(name);     
+      
+ 
+      
+      lblState = new Label("State [AK/HI/VA] "); // allocate Label instance
+      lblState.setForeground(Color.YELLOW);
+      add(lblState);                   // "this" Frame adds Label
+   
+      state = new JTextField(4); // allocate textfield
+      state.setEditable(true);      
+      state.setBackground(Color.DARK_GRAY);
+      state.setForeground(Color.white);
+      add(state);  
+      
+      lblwHours = new Label("Number of Hours worked in a week"); // allocate Label instance
+      lblwHours.setForeground(Color.YELLOW);
+      add(lblwHours);                   // "this" Frame adds Label
+ 
+      hours = new JTextField(6); // allocate textfield
+      hours.setEditable(true);       // true means the user can enter/edit the value
+      hours.setForeground(Color.white);
+      hours.setBackground(Color.DARK_GRAY);
+      hours.addKeyListener(new KeyAdapter() { //Validate input
+                        public void keyPressed(KeyEvent e) {
+                                if (e.getKeyChar() >= '0' && e.getKeyChar() <= '9') {
+                                        hours.setEditable(true);
+                                        status.setText("");
+                                } else {
+                                        
+                                        status.setText("Please enter only numberic digits!");
+                                        
+                                }
+                        }
+                });
+      add(hours);  
+      
+      
+      lblPayRate = new Label("Hourly pay rate"); // allocate Label instance
+      lblPayRate.setForeground(Color.YELLOW);
+      add(lblPayRate);                   // "this" Frame adds Label
+ 
+      payRate = new JTextField(20); // allocate textfield
+      payRate.setEditable(true);   
+      payRate.setBackground(Color.DARK_GRAY);
+      payRate.setForeground(Color.white);
+      payRate.addKeyListener(new KeyAdapter() {
+                        public void keyPressed(KeyEvent e) { //validate input
+                                if ((e.getKeyChar() >= '0' && e.getKeyChar() <= '9') || e.getKeyChar() == '.') {
+                                        payRate.setEditable(true);
+                                        status.setText("");
+                                } else {
+                                        
+                                        status.setText("Please enter only postive numbers!");
+                                        
+                                }
+                        }
+                });
+      add(payRate); 
+      
+      
+     
+      calcButton = new Button("Calculate");   // allocate Button instance
+      calcButton.setBackground(Color.ORANGE);
+      calcButton.setForeground(Color.BLACK);
+      add(calcButton);                    // "this" Frame adds btnCount
+      calcButton.addActionListener(this);
+      
+      lblFedTax = new Label("Federal Tax"); // allocate Label instance
+      lblFedTax.setForeground(Color.YELLOW);
+      add(lblFedTax);                   // "this" Frame adds Label
+ 
+      fedTax = new JTextField(20); // allocate textfield
+      fedTax.setBackground(Color.DARK_GRAY);
+      fedTax.setForeground(Color.GREEN);
+      fedTax.setEditable(false);       
+      add(fedTax); 
+      
+      
+      lblStateTax = new Label(" State Tax"); // allocate Label instance
+      lblStateTax.setForeground(Color.YELLOW);
+      add(lblStateTax);                   // "this" Frame adds Label
+ 
+      stateTax = new JTextField(20); // allocate textfield
+      stateTax.setBackground(Color.DARK_GRAY);
+      stateTax.setForeground(Color.GREEN);
+      stateTax.setEditable(false);       
+      add(stateTax); 
+      
+      
+      lblNetSalary = new Label(" Net salary"); // allocate Label instance
+      lblNetSalary.setForeground(Color.YELLOW);
+      add(lblNetSalary);                   // "this" Frame adds Label
+ 
+      netSalary = new JTextField(20); // allocate textfield
+      netSalary.setBackground(Color.DARK_GRAY);
+      netSalary.setForeground(Color.GREEN);
+      netSalary.setEditable(false);       
+      add(netSalary); 
+      
+      //Clear all texts in textfields
+      clearText = new Button("Clear");
+      clearText.setBackground(Color.ORANGE);
+      clearText.setForeground(Color.BLACK);
+      add(clearText);
+      clearText.addActionListener(new ActionListener() {
+          @Override
+          @SuppressWarnings("ClearTextfield")
+          public void actionPerformed(ActionEvent evt){
+              name.setText(null);
+              state.setText(null);
+              hours.setText(null);
+              payRate.setText(null);
+              fedTax.setText(null);
+              stateTax.setText(null);
+              netSalary.setText(null);
+              
+          }
+      }
+              );
+      
+      
+      
+      
+      
+ 
+      setSize(800, 200);       // "this" Frame sets initial size
+      setTitle(" Employee Salary Calculator"); // "this" Frame sets title
+      setVisible(true);        // show "this" Frame
+      setBackground(Color.BLACK);
+      
+
+   }
+   
+ 
+  @Override
+   @SuppressWarnings("ConvertToStringSwitch")
+   public void actionPerformed(ActionEvent evt) {
+      // finding gross salary
+      
+        double gSalary =Double.parseDouble(hours.getText()) * Double.parseDouble(payRate.getText());
+             
+      // finding the Federal Tax - your code here
+        
+        double federalTax = fTax * gSalary;
+        
+        String fedTaxText =  df.format(federalTax);
+       // finding the State tax
+        
+        double stateTaxd;
+        
+        
+        if (state.getText().equals("AK")) {
+            stateTaxd = gSalary * 0.1;
+        }
+        else if (state.getText().equals("HI")) {
+            stateTaxd = gSalary * 0.09;
+        }
+        else if (state.getText().equals("VA")) {
+            stateTaxd = gSalary * 0.082;
+        }
+        else {
+            stateTaxd = gSalary * 0.05;
+        }
+        
+        String stateTaxt = df.format(stateTaxd);
+      
+     // find the net Salary  
+        double netSalaryd = gSalary - federalTax - stateTaxd;
+        String netSalaryt = df.format(netSalaryd);
+       
+       
+	   
+	   // displaying the output
+        fedTax.setText(fedTaxText);
+        stateTax.setText(stateTaxt);
+        netSalary.setText(netSalaryt);
+        
+        
+       
+          }
+ 
+   // The entry main() method
+   public static void main(String[] args) {
+      // Invoke the constructor by allocating an anonymous instance
+      new NetSalaryCalculator();
+   }
+
+    
+}
+

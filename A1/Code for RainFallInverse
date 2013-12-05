@@ -1,0 +1,134 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author v90207
+ */
+import java.util.Scanner;
+class RainFallReverse {
+    public static void main(String[] args){
+        MainMenu();
+       
+        
+    }
+    
+    public static void printReverse () { // return type can be changed if necessary
+        Scanner scanner = new Scanner(System.in);
+        long number;
+        System.out.println("");
+        System.out.print("Enter the number to be reversed: ");
+        number = scanner.nextLong();
+        long one = number/10000;
+        long two = (number%10000)/1000;
+        long three = ((number%1000)/100);
+        long four = (number%100)/10;
+        long five = (number%10);
+        long result = one + two*10 + three*100 + four*1000 + five*10000;
+        System.out.print("The value " + number + " reverse is: " + result);
+        
+        
+        
+        System.out.println("");
+        System.out.println("");
+        
+        
+    }
+	
+    public static void listRainFallStatistics() {
+        Scanner scanner = new Scanner(System.in);
+        String town, region, givenName, surName;
+        double max, min, average,total = 0;
+        double[] rainFall = new double[7];
+        
+        //Ask users input their data
+        System.out.println("");
+        System.out.print("Enter suburb/town name: ");
+        town = scanner.nextLine();
+        System.out.print("Enter Region <NE, NW, RRD, NCC, SCC, CH, MRD and SE>: ");
+        region = scanner.nextLine();
+        System.out.println("");
+        System.out.print("Enter total rainfall on Monday:       ");
+        rainFall[0] = scanner.nextDouble();
+        System.out.print("Enter total rainfall on Tuesday:      ");
+        rainFall[1] = scanner.nextDouble();
+        System.out.print("Enter total rainfall on Wednesday:    ");
+        rainFall[2] = scanner.nextDouble();
+        System.out.print("Enter total rainfall on Thursday:     ");
+        rainFall[3] = scanner.nextDouble();
+        System.out.print("Enter total rainfall on Friday:       ");
+        rainFall[4] = scanner.nextDouble();
+        System.out.print("Enter total rainfall on Saturday:     ");
+        rainFall[5] = scanner.nextDouble();
+        System.out.print("Enter total rainfall on Sunday:       ");
+        rainFall[6] = scanner.nextDouble();
+        System.out.println("");
+        System.out.print("Enter your given name: ");
+        givenName = scanner.next();
+        System.out.print("Enter your surname: ");
+        surName = scanner.next();
+        System.out.println("");
+        
+        //Calculate min, max, total and average rainfall
+        min = rainFall[0]; 
+        max = rainFall[0];
+        for (int i = 0; i <= 6; i++) {
+            if (rainFall[i] < min) min = rainFall[i];
+        }
+        for (int i = 0; i <= 6; i++) {
+            if (rainFall[i] > max) max = rainFall[i];
+        }
+        for (int i = 0; i <= 6; i++) {
+            total = total + rainFall[i];
+        }
+        average = total/7;
+        
+        //Display the result
+        System.out.println("7-day rainfall report for " + town + ", " + region);
+        System.out.println("Minimum Rainfall Maximum Rainfall Average Rainfall Total Rainfall for Week");
+        System.out.println("---------------- ---------------- ---------------- -----------------------");
+        System.out.printf("%14.0f%s%15.0f%s%15.1f%s%22.0f%s", min,"mm", max,"mm", average,"mm", total,"mm");
+        System.out.println("");
+        System.out.println("--------------------------------------------------------------------------");
+        System.out.println("");
+        
+        
+        
+	
+}
+
+ public static void MainMenu () {
+     Scanner scanner = new Scanner(System.in);
+     int option = 1;
+     
+     while (option != 3) {
+        System.out.println("1) Rainfall Statistics");
+        System.out.println("2) Reverse - Integer");
+        System.out.println("3) Exit");
+        System.out.print("Select your option: "); 
+        option = scanner.nextInt();
+        
+        switch (option) {
+            case 1:
+                listRainFallStatistics();
+                break;
+            case 2:
+                printReverse();
+                break;
+            case 3:
+                System.out.println("“Bye see you again”");
+                System.exit(0);
+            default: 
+                System.out.println("Invalid option!");
+                
+                
+        }
+     }
+     
+ }
+ 
+ 
+
+}
